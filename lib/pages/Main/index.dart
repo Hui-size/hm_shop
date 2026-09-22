@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hm_shop/pages/Cart/index.dart';
+import 'package:hm_shop/pages/Category/index.dart';
+import 'package:hm_shop/pages/Home/index.dart';
+import 'package:hm_shop/pages/Mine/index.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key? key}) : super(key: key);
@@ -49,7 +53,9 @@ class _MainPageState extends State<MainPage> {
   }
 
   List<Widget>_getChildren(){
-    return[Text("首页"),Text("分类"),Text("购物车"),Text("我的")];
+    return[
+      HomeView(),CategoryView(),CartView(),MineView(),
+    ];
   }
   @override
   Widget build(BuildContext context) {
