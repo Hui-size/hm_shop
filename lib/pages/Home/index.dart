@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hm_shop/api/home.dart';
 import 'package:hm_shop/compontents/Home/HmCategory.dart';
 import 'package:hm_shop/compontents/Home/HmHot.dart';
 import 'package:hm_shop/compontents/Home/HmMoreList.dart';
@@ -15,19 +16,19 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
 
-  final  List<BannerItem>_bannerList=[
-     BannerItem(
-      id: "1",
-     imgUrl: "https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meikou/banner/nuandong_sj.png",
-     ),
-      BannerItem(
-      id: "2",
-     imgUrl:  "https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meikou/banner/nvshen_sj.png",
-     ),
-      BannerItem(
-      id: "3",
-     imgUrl: "https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meikou/banner/xinnian_sj.png",
-     )
+    List<BannerItem>_bannerList=[
+    //  BannerItem(
+    //   id: "1",
+    //  imgUrl: "https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meikou/banner/nuandong_sj.png",
+    //  ),
+    //   BannerItem(
+    //   id: "2",
+    //  imgUrl:  "https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meikou/banner/nvshen_sj.png",
+    //  ),
+    //   BannerItem(
+    //   id: "3",
+    //  imgUrl: "https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meikou/banner/xinnian_sj.png",
+    //  )
   ];
   //获取滚动容器的内容  
   List<Widget> _getScrollChildern(){
@@ -57,6 +58,16 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: SizedBox(height: 10,),),
       Hmmorelist(),//无限滚动列表
     ];
+  }
+  @override
+  void initState() { 
+    super.initState();
+    _getBannderList();
+  }
+
+  void _getBannderList()async{
+    _bannerList =await getBannerListAPI();
+    setState(() {});
   }
   @override
   Widget build(BuildContext context) {
