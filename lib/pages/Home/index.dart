@@ -15,6 +15,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  //分类列表
+  List<CategoryItem>_categoryList=[];
 
     List<BannerItem>_bannerList=[
     //  BannerItem(
@@ -38,7 +40,7 @@ class _HomeViewState extends State<HomeView> {
 
       //放置分类组件
       SliverToBoxAdapter(child: SizedBox(height: 10,),),
-      SliverToBoxAdapter(child: HmCategory(),),
+      SliverToBoxAdapter(child: HmCategory(categoryList: _categoryList,),),//分类组件
       SliverToBoxAdapter(child: SizedBox(height: 10,),),
       SliverToBoxAdapter(child: Hmsuggestion()),
       SliverToBoxAdapter(child: SizedBox(height: 10,),),
@@ -63,8 +65,14 @@ class _HomeViewState extends State<HomeView> {
   void initState() { 
     super.initState();
     _getBannderList();
+    _getCategoryList();
   }
-
+  //获取分类列表
+  void _getCategoryList()async{
+    _categoryList =await getCategoryListAPI();
+    setState(() {});
+  }
+  //获取轮播图列表
   void _getBannderList()async{
     _bannerList =await getBannerListAPI();
     setState(() {});
