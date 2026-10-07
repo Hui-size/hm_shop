@@ -92,3 +92,127 @@ class CategoryItem{
   );
 }
 }
+
+/// 特惠推荐接口的完整响应
+/// 特惠推荐内容，对应接口返回的 result。
+class SpecialRecommendResult {
+  String id;
+  String title;
+  List<SpecialRecommendSubType> subTypes;
+
+  SpecialRecommendResult({
+    required this.id,
+    required this.title,
+    required this.subTypes,
+  });
+
+  factory SpecialRecommendResult.fromJson(Map<String, dynamic> json) {
+    return SpecialRecommendResult(
+      id: json['id'] ?? '',
+      title: json['title'] ?? '',
+      subTypes: (json['subTypes'] as List?)
+              ?.map((item) => SpecialRecommendSubType.fromJson(
+                    item as Map<String, dynamic>,
+                  ))
+              .toList() ??
+          <SpecialRecommendSubType>[],
+    );
+  }
+
+  factory SpecialRecommendResult.formJSON(Map<String, dynamic> json) =>
+      SpecialRecommendResult.fromJson(json);
+}
+
+/// 推荐子分类，例如抢先尝鲜、新品预告。
+class SpecialRecommendSubType {
+  String id;
+  String title;
+  SpecialRecommendGoodsItems goodsItems;
+
+  SpecialRecommendSubType({
+    required this.id,
+    required this.title,
+    required this.goodsItems,
+  });
+
+  factory SpecialRecommendSubType.fromJson(Map<String, dynamic> json) {
+    return SpecialRecommendSubType(
+      id: json['id'] ?? '',
+      title: json['title'] ?? '',
+      goodsItems: SpecialRecommendGoodsItems.fromJson(
+        json['goodsItems'] as Map<String, dynamic>,
+      ),
+    );
+  }
+
+  factory SpecialRecommendSubType.formJSON(Map<String, dynamic> json) =>
+      SpecialRecommendSubType.fromJson(json);
+}
+
+/// 子分类的商品分页数据。
+class SpecialRecommendGoodsItems {
+  int counts;
+  int pageSize;
+  int pages;
+  int page;
+  List<SpecialRecommendGoodsItem> items;
+
+  SpecialRecommendGoodsItems({
+    required this.counts,
+    required this.pageSize,
+    required this.pages,
+    required this.page,
+    required this.items,
+  });
+
+  factory SpecialRecommendGoodsItems.fromJson(Map<String, dynamic> json) {
+    return SpecialRecommendGoodsItems(
+      counts: (json['counts'] as num?)?.toInt() ?? 0,
+      pageSize: (json['pageSize'] as num?)?.toInt() ?? 0,
+      pages: (json['pages'] as num?)?.toInt() ?? 0,
+      page: (json['page'] as num?)?.toInt() ?? 0,
+      items: (json['items'] as List?)
+              ?.map((item) => SpecialRecommendGoodsItem.fromJson(
+                    item as Map<String, dynamic>,
+                  ))
+              .toList() ??
+          <SpecialRecommendGoodsItem>[],
+    );
+  }
+
+  factory SpecialRecommendGoodsItems.formJSON(Map<String, dynamic> json) =>
+      SpecialRecommendGoodsItems.fromJson(json);
+}
+
+/// 特惠推荐商品；价格按接口保留字符串，描述允许为 null。
+class SpecialRecommendGoodsItem {
+  String id;
+  String name;
+  String? desc;
+  String price;
+  String picture;
+  int orderNum;
+
+  SpecialRecommendGoodsItem({
+    required this.id,
+    required this.name,
+    this.desc,
+    required this.price,
+    required this.picture,
+    required this.orderNum,
+  });
+
+  factory SpecialRecommendGoodsItem.fromJson(Map<String, dynamic> json) {
+    return SpecialRecommendGoodsItem(
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      desc: json['desc'] as String?,
+      price: json['price'] ?? '',
+      picture: json['picture'] ?? '',
+      orderNum: (json['orderNum'] as num?)?.toInt() ?? 0,
+    );
+  }
+
+  factory SpecialRecommendGoodsItem.formJSON(Map<String, dynamic> json) =>
+      SpecialRecommendGoodsItem.fromJson(json);
+}

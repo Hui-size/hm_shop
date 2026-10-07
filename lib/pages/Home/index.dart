@@ -42,7 +42,7 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: SizedBox(height: 10,),),
       SliverToBoxAdapter(child: HmCategory(categoryList: _categoryList,),),//分类组件
       SliverToBoxAdapter(child: SizedBox(height: 10,),),
-      SliverToBoxAdapter(child: Hmsuggestion()),
+      SliverToBoxAdapter(child: Hmsuggestion(specialRecommendResult: _specialRecommendResult,),),
       SliverToBoxAdapter(child: SizedBox(height: 10,),),
       //SliverGrid SliverList只能纵向排列
       SliverToBoxAdapter(child: 
@@ -66,6 +66,21 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
     _getBannderList();
     _getCategoryList();
+    _getProductList();
+  }
+  //获取特惠推荐
+  SpecialRecommendResult _specialRecommendResult = SpecialRecommendResult(
+    id: "1",
+    title: "特惠推荐",
+    subTypes: [],
+  );
+  void _getProductList() async {
+    final result = await getProductListAPI();
+    if (!mounted) return;
+
+    setState(() {
+      _specialRecommendResult = result;
+    });
   }
   //获取分类列表
   void _getCategoryList()async{
