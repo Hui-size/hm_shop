@@ -241,3 +241,35 @@ class GoodDetailItem extends SpecialRecommendGoodsItem {
     );
   }
 }
+
+
+
+class GoodDetailsItems {
+  int counts;
+  int pageSize;
+  int pages;
+  int page;
+  List<GoodDetailItem> items;
+  GoodDetailsItems({
+    required this.counts,
+    required this.pageSize,
+    required this.pages,
+    required this.page,
+    required this.items,
+  });
+
+  factory GoodDetailsItems.fromJson(Map<String, dynamic> json) {
+    return GoodDetailsItems(
+      counts: (json['counts'] as num?)?.toInt() ?? 0,
+      pageSize: (json['pageSize'] as num?)?.toInt() ?? 0,
+      pages: (json['pages'] as num?)?.toInt() ?? 0,
+      page: (json['page'] as num?)?.toInt() ?? 0,
+      items: (json['items'] as List?)
+              ?.map((item) => GoodDetailItem.formJSON(
+                    item as Map<String, dynamic>,
+                  ))
+              .toList() ??
+          <GoodDetailItem>[],
+    );
+  }
+}
