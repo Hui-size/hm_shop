@@ -28,13 +28,23 @@ class Diorequest {
         handler.reject(DioException(requestOptions: response.requestOptions));//超过状态码，拦截处理
       },
       onError: (error,handler){
-        handler.reject(error);
+        //handler.reject(error);
+        handler.reject(
+          DioException(
+            requestOptions: error.requestOptions,message: 
+            error.response?.data["msg"]??"",//可选与空判断
+        ),);
       },
     ));
   }
   Future<dynamic> get(String url,{Map<String ,dynamic>? params}){
     return _handleResponse(_dio.get(url,queryParameters: params));
   }
+  //定义post接口
+  Future<dynamic>post(String url,{Map<String,dynamic>?data}){//可选命名参数
+    return _handleResponse(_dio.post(url,data: data));
+  }
+
   //进一步处理返回结果的函数
   Future<dynamic> _handleResponse(Future<Response<dynamic>>task)async{
     try{
@@ -46,10 +56,13 @@ class Diorequest {
 
     }
     //抛出异常
-    throw Exception(data["msg"] ?? "加载数据异常");//空判断为空则输出后面内容
+    //throw Exception(data["msg"] ?? "加载数据异常");//空判断为空则输出后面内容
+    throw DioException(requestOptions: res.requestOptions,
+    message: data["msg"]??"加载数据失败");
     }
     catch(e){
-      throw Exception(e);
+      //throw Exception(e);
+      rethrow;//不改变原来抛出的异常类型
     }
   
   }
