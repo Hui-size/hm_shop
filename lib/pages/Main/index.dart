@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:hm_shop/pages/Cart/index.dart';
 import 'package:hm_shop/pages/Category/index.dart';
 import 'package:hm_shop/pages/Home/index.dart';
 import 'package:hm_shop/pages/Mine/index.dart';
+import 'package:hm_shop/stores/UserController.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key? key}) : super(key: key);
@@ -12,6 +15,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  final UserController _userController=Get.put(UserController());
+
   //定义数据，根据数据渲染4个导航
   //一般应用程序的导航是固定的
   final List<Map<String,String>>_tablist=[

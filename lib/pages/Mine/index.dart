@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:hm_shop/api/mine.dart';
 import 'package:hm_shop/compontents/Home/HmMoreList.dart';
 import 'package:hm_shop/compontents/Mine/HmGuess.dart';
+import 'package:hm_shop/stores/UserController.dart';
 import 'package:hm_shop/viewmodels/home.dart';
 
 class MineView extends StatefulWidget {
@@ -12,6 +16,8 @@ class MineView extends StatefulWidget {
 }
 
 class _MineViewState extends State<MineView> {
+    final UserController _userController=Get.put(UserController());
+
   Widget _buildHeader() {
     return Container(
       decoration: BoxDecoration(
@@ -24,25 +30,37 @@ class _MineViewState extends State<MineView> {
       padding: const EdgeInsets.only(left: 20, right: 40, top: 80, bottom: 20),
       child: Row(
         children: [
-          CircleAvatar(
+          Obx((){
+            return  CircleAvatar(
             radius: 26,
-            backgroundImage: const AssetImage('lib/assets/goods_avatar.png'),
+            backgroundImage:   _userController.user.value.avatar.isNotEmpty ?
+            NetworkImage(_userController.user.value.avatar)
+            : AssetImage('lib/assets/goods_avatar.png'),
             backgroundColor: Colors.white,
-          ),
+            );
+          }),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children:[
-                GestureDetector(
+                Obx((){
+                  //Obx中必须得有可监测的响应式数据
+                  return GestureDetector(
                   onTap: (){
-                    Navigator.pushNamed(context, "/login");
+                    if(_userController.user.value.id.isEmpty){
+                      //当没有用户信息的时候可以去登录
+                      Navigator.pushNamed(context, "/login");
+                    }
                   },
                   child:Text(
-                  '立即登录',
+                  _userController.user.value.id.isNotEmpty 
+                  ?_userController.user.value.account
+                  :'立即登录',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ), 
-                ),
+                    ), 
+                  );
+                }),
               ],
             ),
           ),
