@@ -11,3 +11,9 @@ Future<UserInfo>loginAPI(Map<String,dynamic>data)async{
     await dioRequest.post(HttpConstants.LOGIN,data: data),//常量地址
   );
 }
+
+Future<UserInfo>getUserInfoAPI()async{
+  return UserInfo.fromJSON(
+    await dioRequest.get(HttpConstants.USER_PROFILE),
+  );
+}

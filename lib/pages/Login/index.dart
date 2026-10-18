@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:hm_shop/api/user.dart';
+import 'package:hm_shop/stores/TokenManager.dart';
 import 'package:hm_shop/stores/UserController.dart';
 import 'package:hm_shop/utils/ToastUtils.dart';
 
@@ -80,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
     });
     //print(res);//用户信息
     _userController.updateUserInfo(res);
+    tokenManager.setToken(res.token);//持久化数据
     Toastutils.showToast(context, "登录成功");
     Navigator.pop(context);//返回上一页
     }
