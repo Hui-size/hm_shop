@@ -5,6 +5,7 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:hm_shop/api/user.dart';
 import 'package:hm_shop/stores/TokenManager.dart';
 import 'package:hm_shop/stores/UserController.dart';
+import 'package:hm_shop/utils/LoadingDialog.dart';
 import 'package:hm_shop/utils/ToastUtils.dart';
 
 class LoginPage extends StatefulWidget {
@@ -73,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
   _login()async{
+    Loadingdialog.show(context,message: "努力登录中");
     //调用登录接口
     try{
       final res=await loginAPI({
@@ -82,10 +84,12 @@ class _LoginPageState extends State<LoginPage> {
     //print(res);//用户信息
     _userController.updateUserInfo(res);
     tokenManager.setToken(res.token);//持久化数据
+    Loadingdialog.hide(context);
     Toastutils.showToast(context, "登录成功");
     Navigator.pop(context);//返回上一页
     }
     catch(e){
+      Loadingdialog.hide(context);
       Toastutils.showToast(context,(e as DioException).message);//类型断言
     }
     
